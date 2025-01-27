@@ -24,6 +24,6 @@ add_library(freertos_kernel_cm4 STATIC
 target_include_directories(freertos_kernel_cm4 PUBLIC
     ${freertos_kernel_SOURCE_DIR}/include
     ${freertos_kernel_SOURCE_DIR}/portable/GCC/ARM_CM4F)
-target_include_directories(freertos_kernel_cm4 PRIVATE
+target_include_directories(freertos_kernel_cm4 PUBLIC
     ${FREERTOS_EXTRA_INCLUDE_DIR})
 target_link_libraries(freertos_kernel_cm4 PRIVATE libopencm3)

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-project(project-template)
+project(reflow)
 include(FetchContent)
 
 ## stm32f4
@@ -19,10 +19,18 @@ set(PROJECT_LINKER_FILE ${CMAKE_CURRENT_LIST_DIR}/ld/stm32f411ce.ld)
 
 set(PROJECT_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/src/main.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/freertos_hooks.c
+
+    # ili9341
+    ${CMAKE_CURRENT_LIST_DIR}/lib/ili9341/ili9341.c
 )
 
 set(PROJECT_INCLUDE_DIRS
-    ${CMAKE_CURRENT_LIST_DIR}/src)
+    ${CMAKE_CURRENT_LIST_DIR}/src
+
+    # ili9341
+    ${CMAKE_CURRENT_LIST_DIR}/lib/ili9341
+)
 
 set(PROJECT_LIBRARIES
     libopencm3
