@@ -1,0 +1,45 @@
+
+cmake_minimum_required(VERSION 3.18)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+project(project-template)
+include(FetchContent)
+
+## stm32f4
+set(FREERTOS_EXTRA_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/src/include)
+include(boards/libopencm3_stmf4.cmake)
+include(boards/freertos_cm4.cmake)
+
+#########################################################################
+#########################################################################
+# main app
+
+set(PROJECT_LINKER_FILE ${CMAKE_CURRENT_LIST_DIR}/ld/stm32f411ce.ld)
+
+set(PROJECT_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/src/main.c
+)
+
+set(PROJECT_INCLUDE_DIRS
+    ${CMAKE_CURRENT_LIST_DIR}/src)
+
+set(PROJECT_LIBRARIES
+    libopencm3
+    freertos_kernel_cm4
+)
+
+# Create project target
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+target_link_libraries(${PROJECT_NAME} ${PROJECT_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_INCLUDE_DIRS})
+target_link_options(${PROJECT_NAME} PRIVATE
+    -T${PROJECT_LINKER_FILE}
+    -Wl,-print-memory-usage
+    -Wl,-Map=$<TARGET_FILE_DIR:${PROJECT_NAME}>/$<TARGET_FILE_BASE_NAME:${PROJECT_NAME}>.map)
+
+# Generate bin, hex, disasm files
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}> $<TARGET_FILE_DIR:${PROJECT_NAME}>/$<TARGET_FILE_BASE_NAME:${PROJECT_NAME}>.bin
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}> $<TARGET_FILE_DIR:${PROJECT_NAME}>/$<TARGET_FILE_BASE_NAME:${PROJECT_NAME}>.hex
+    COMMAND ${CMAKE_OBJDUMP} -D $<TARGET_FILE:${PROJECT_NAME}> > $<TARGET_FILE_DIR:${PROJECT_NAME}>/$<TARGET_FILE_BASE_NAME:${PROJECT_NAME}>.asm)

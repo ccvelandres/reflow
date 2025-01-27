@@ -1,0 +1,97 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "cmake-debug-configure",
+            "command": "cmake",
+            "args": [
+                "--preset=debug",
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "label": "cmake-debug-build",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset=debug",
+                "--parallel"
+            ],
+            "dependsOn": [
+                "cmake-debug-configure"
+            ],
+            "dependsOrder": "sequence",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "label": "cmake-debug-clean",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset=debug",
+                "--target", "clean"
+            ],
+            "dependsOn": [
+                "cmake-debug-configure"
+            ],
+            "dependsOrder": "sequence",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "label": "cmake-release-configure",
+            "command": "cmake",
+            "args": [
+                "--preset=release",
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "label": "cmake-release-build",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset=release",
+                "--parallel"
+            ],
+            "dependsOn": [
+                "cmake-release-configure"
+            ],
+            "dependsOrder": "sequence",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "label": "cmake-release-clean",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset=release",
+                "--target", "clean"
+            ],
+            "dependsOn": [
+                "cmake-release-configure"
+            ],
+            "dependsOrder": "sequence",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+    ]
+}
