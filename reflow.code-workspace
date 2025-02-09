@@ -16,7 +16,10 @@
 			"string_view": "c",
 			"ranges": "c",
 			"nvic.h": "c",
-			"freertos.h": "c"
+			"freertos.h": "c",
+			"cortex.h": "c",
+			"ili9341.h": "c",
+			"algorithm": "c"
 		}
 	}
 }

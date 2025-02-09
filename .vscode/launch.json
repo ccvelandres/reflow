@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "example/stm32f411-freertos",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "BMPGDBSerialPort": "/dev/ttyBmpGdb",
+            "interface": "swd",
+            "powerOverBMP": "disable",
+            "svdFile": "${workspaceFolder}/ld/stm32f411.svd",
+            "executable": "build/debug/reflow",
+            "gdbPath": "arm-none-eabi-gdb",
+            "postLaunchCommands": [
+                "mon rtt"
+            ],
+            "cwd": "${workspaceFolder}/"
+        }
+    ],
+    "version": "2.0.0"
+}

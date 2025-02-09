@@ -93,5 +93,22 @@
             },
             "group": "build"
         },
+        {
+            "label": "bmp_upload",
+            "command": "arm-none-eabi-gdb",
+            "args": [
+                "--batch",
+                "-ex", "target extended-remote /dev/ttyBmpGdb",
+                "-ex", "mon swdp_scan",
+                "-ex", "att 1",
+                "-ex", "load ard/sketch_jan28a.ino.elf",
+                "-ex", "run"
+            ],
+            "dependsOrder": "sequence",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
     ]
 }
