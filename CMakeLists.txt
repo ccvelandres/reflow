@@ -7,9 +7,14 @@ project(reflow)
 include(FetchContent)
 
 ## stm32f4
-set(FREERTOS_EXTRA_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/src/include)
 include(boards/libopencm3_stmf4.cmake)
+
+set(FREERTOS_EXTRA_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/src/include)
 include(boards/freertos_cm4.cmake)
+
+set(SEGGER_RTT_EXTRA_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/src/include)
+set(SEGGER_RTT_EXTRA_LIBRARIES libopencm3)
+include(boards/segger_rtt.cmake)
 
 #########################################################################
 #########################################################################
@@ -35,6 +40,7 @@ set(PROJECT_INCLUDE_DIRS
 set(PROJECT_LIBRARIES
     libopencm3
     freertos_kernel_cm4
+    segger_rtt
 )
 
 # Create project target
