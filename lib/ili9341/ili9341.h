@@ -22,6 +22,8 @@ extern "C"
 #define ILI9341_E_NULLPTR               (0x01)
 #define ILI9341_E_COMM_FAIL             (0x02)
 #define ILI9341_E_INVALID_ARG           (0x03)
+#define ILI9341_E_OUT_OF_BOUNDS         (0x04)
+#define ILI9341_E_CLIPPED               (0x04)
 
 /*! @name ILI9341 Level 1 Command definitions */
 #define ILI9341_CMD_NOP                 (0x00) // No Operation
@@ -112,8 +114,11 @@ extern "C"
 #define ILI9341_CMD_EN3G          (0xF2) // Enable 3 Gamma
 #define ILI9341_CMD_PUMPRCTRL     (0xF7) // Pump ratio control
 
-#define ILI9341_BLACK       (0x0000)
-#define ILI9341_WHITE       (0xFFFF)
+#define ILI9341_COLOR_BLACK       (0x0000)
+#define ILI9341_COLOR_BLUE        (0x001F)
+#define ILI9341_COLOR_GREEN       (0x07E0)
+#define ILI9341_COLOR_RED         (0xF800)
+#define ILI9341_COLOR_WHITE       (0xFFFF)
 
 typedef struct _ili9341_scb_t ili9341_scb_t;
 
@@ -123,15 +128,16 @@ typedef void (*ili9341_dc_fptr_t)(bool state, void *user_ctx);
 typedef void (*ili9341_rst_fptr_t)(bool state, void *user_ctx);
 typedef int (*ili9341_read_fptr_t)(uint8_t *data, size_t len, void *user_ctx);
 typedef int (*ili9341_write_fptr_t)(const uint8_t *data, size_t len, void *user_ctx);
+typedef int (*ili9341_write16_fptr_t)(const uint16_t *data, size_t len, void *user_ctx);
 typedef int (*ili9341_xfer_fptr_t)(const uint8_t *write, uint8_t *read, size_t len, void *user_ctx);
 
 struct _ili9341_scb_t
 {
-    size_t height;
-    size_t width;
+    uint16_t height;
+    uint16_t width;
 
-    uint8_t *cache;
-    size_t cache_size;
+    uint8_t *cache_ptr;
+    uint16_t cache_size;
 
     // Interface data
     void *user_ctx;
@@ -141,13 +147,32 @@ struct _ili9341_scb_t
     const ili9341_rst_fptr_t f_rst;
     const ili9341_read_fptr_t f_read;
     const ili9341_write_fptr_t f_write;
+    const ili9341_write16_fptr_t f_write16;
     const ili9341_xfer_fptr_t f_xfer;
 };
 
+int ili9341_cmd(ili9341_scb_t* scb, uint8_t cmd);
+int ili9341_write_cmd(ili9341_scb_t *scb, uint8_t cmd, const uint8_t *data, size_t len);
+int ili9341_read_cmd(ili9341_scb_t *scb, uint8_t cmd, uint8_t *data, size_t len);
+
 int ili9341_init(ili9341_scb_t* scb);
 int ili9341_clear(ili9341_scb_t* scb, uint16_t color);
+int ili9341_invert(ili9341_scb_t* scb, bool invert);
+int ili9341_update_screen(ili9341_scb_t* scb);
 
-int ili9341_set_addr_window(ili9341_scb_t *scb, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
+int ili9341_write_color(ili9341_scb_t *scb, uint32_t count, uint16_t color);
+int ili9341_write_pixels(ili9341_scb_t *scb, const uint16_t *pixels, uint32_t count, bool le);
+int ili9341_set_addr_window(ili9341_scb_t *scb, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
+
+int ili9341_draw_pixel(ili9341_scb_t *scb, int16_t x1, int16_t y1, uint16_t color);
+int ili9341_draw_line(ili9341_scb_t *scb, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+int ili9341_draw_bitmap(ili9341_scb_t *scb, int16_t x, int16_t y, int16_t w, int16_t h, const uint16_t *colors, bool le);
+
+// Primitive fast Draw Functions
+int ili9341_fdraw_hline(ili9341_scb_t *scb, int16_t x, int16_t y, int16_t l, uint16_t color);
+int ili9341_fdraw_vline(ili9341_scb_t *scb, int16_t x, int16_t y, int16_t l, uint16_t color);
+int ili9341_fdraw_rect(ili9341_scb_t *scb, int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+int ili9341_fdraw_filled_rect(ili9341_scb_t *scb, int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 
 
 #ifdef __cplusplus
