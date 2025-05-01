@@ -1,1 +1,9 @@
 build/
+
+# ESP-IDF
+config.env
+sdkconfig
+sdkconfig.old
+kconfigs.in
+kconfigs_*.in
+config

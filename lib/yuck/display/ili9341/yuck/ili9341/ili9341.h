@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-#ifndef __ILI9341__
-#define __ILI9341__
+#ifndef __DISPLAY_ILI9341_H__
+#define __DISPLAY_ILI9341_H__
 
 /**
- * @file ili9341.hpp
+ * @file ili9341.h
  * @author Cedric Velandres (ccvelandres@gmail.com)
  */
 
@@ -120,7 +120,7 @@ extern "C"
 #define ILI9341_COLOR_RED         (0xF800)
 #define ILI9341_COLOR_WHITE       (0xFFFF)
 
-typedef struct _ili9341_scb_t ili9341_scb_t;
+typedef struct ili9341_scb ili9341_scb_t;
 
 typedef void (*ili9341_delay_fptr_t)(uint32_t ms);
 typedef void (*ili9341_cs_fptr_t)(bool state, void *user_ctx);
@@ -131,7 +131,7 @@ typedef int (*ili9341_write_fptr_t)(const uint8_t *data, size_t len, void *user_
 typedef int (*ili9341_write16_fptr_t)(const uint16_t *data, size_t len, void *user_ctx);
 typedef int (*ili9341_xfer_fptr_t)(const uint8_t *write, uint8_t *read, size_t len, void *user_ctx);
 
-struct _ili9341_scb_t
+struct ili9341_scb
 {
     uint16_t height;
     uint16_t width;

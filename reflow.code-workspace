@@ -5,6 +5,32 @@
 		}
 	],
 	"settings": {
+		"terminal.integrated.automationProfile.windows": 
+		{
+			"path": "bash",
+			"icon": "terminal-bash",
+			"args": [
+				"--rcfile", "${workspaceFolder}/.vscode/envfile"
+			]
+		},
+		"terminal.integrated.automationProfile.linux":
+		{
+			"path": "bash",
+			"icon": "terminal-bash",
+			"args": [
+				"--rcfile", "${workspaceFolder}/.vscode/envfile"
+			]
+		},
+		"terminal.integrated.profiles.linux": {
+			"bash (env)": {
+				"path": "bash",
+				"icon": "terminal-bash",
+				"args": [
+					"--rcfile", "${workspaceFolder}/.vscode/envfile"
+				]
+			},
+		},
+		"terminal.integrated.defaultProfile.linux": "bash (env)",
 		"files.associations": {
 			"spi.h": "c",
 			"spi_common_v1_frf.h": "c",
@@ -19,7 +45,14 @@
 			"freertos.h": "c",
 			"cortex.h": "c",
 			"ili9341.h": "c",
-			"algorithm": "c"
+			"algorithm": "c",
+			"gpio.h": "c",
+			"spi_yuck.h": "c",
+			"spi_types.h": "c",
+			"i2c.h": "c",
+			"esp_intr_alloc.h": "c",
+			"compare": "cpp",
+			"err.h": "c"
 		}
 	}
 }

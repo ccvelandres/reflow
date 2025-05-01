@@ -2,32 +2,67 @@
     "version": 3,
     "configurePresets": [
         {
-            "name": "debug",
-            "displayName": "Debug",
-            "binaryDir": "build/debug",
+            "name": "ccache",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_TOOLCHAIN_FILE": "scripts/toolchain_arm_none_eabi.cmake"
+                "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache"
+            }
+        },
+        {
+            "name": "build-debug",
+            "binaryDir": "build/debug"
+        },
+        {
+            "name": "build-release",
+            "binaryDir": "build/release"
+        },
+        {
+            "name": "debug",
+            "hidden": true,
+            "inherits": [
+                "ccache",
+                "build-debug"
+            ],
+            "displayName": "Debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
             "name": "release",
+            "inherits": [
+                "ccache",
+                "build-release"
+            ],
             "displayName": "Release",
             "binaryDir": "build",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-                "CMAKE_TOOLCHAIN_FILE": "scripts/toolchain_arm_none_eabi.cmake"
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "stm32-debug",
+            "inherits": "debug",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "cmake/toolchains/toolchain_arm_none_eabi.cmake"
+            }
+        },
+        {
+            "name": "esp32-debug",
+            "inherits": "debug",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$penv{IDF_PATH}/tools/cmake/toolchain-esp32.cmake"
             }
         }
     ],
     "buildPresets": [
         {
             "name": "debug",
-            "configurePreset": "debug"
+            "configurePreset": "build-debug"
         },
         {
             "name": "release",
-            "configurePreset": "release"
+            "configurePreset": "build-release"
         }
     ],
     "testPresets": [

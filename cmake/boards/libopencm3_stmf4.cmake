@@ -1,3 +1,4 @@
+include(boards.cmake)
 
 #########################################################################
 # libopencm3
@@ -31,3 +32,18 @@ target_link_options(libopencm3_stm32f4 INTERFACE
 add_dependencies(libopencm3_stm32f4 libopencm3_lib)
 
 add_library(libopencm3 ALIAS libopencm3_stm32f4)
+
+function(__BOARD_POST_PROCESS target)
+    target_link_options(${target} PRIVATE
+    -T${PROJECT_LINKER_FILE}
+    -Wl,-print-memory-usage
+    -Wl,-Map=$<TARGET_FILE_DIR:${target}>/$<TARGET_FILE_BASE_NAME:${target}>.map)
+
+    # Generate bin, hex, disasm files
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${target}> $<TARGET_FILE_DIR:${target}>/$<TARGET_FILE_BASE_NAME:${target}>.bin
+        COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${target}> $<TARGET_FILE_DIR:${target}>/$<TARGET_FILE_BASE_NAME:${target}>.hex
+        COMMAND ${CMAKE_OBJDUMP} -D $<TARGET_FILE:${target}> > $<TARGET_FILE_DIR:${target}>/$<TARGET_FILE_BASE_NAME:${target}>.asm)
+endfunction()
+
+set(BOARD_POST_PROCESS __BOARD_POST_PROCESS CACHE STRING "")

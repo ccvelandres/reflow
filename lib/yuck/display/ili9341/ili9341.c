@@ -1,48 +1,48 @@
 // SPDX-License-Identifier: MIT
 
-#include <ili9341.h>
-
 /**
  * @file ili9341.cpp
  * @author Cedric Velandres (ccvelandres@gmail.com)
  */
 
+#include "yuck/ili9341/ili9341.h"
+
 // clang-format off
 static const uint8_t ili9341_init_cmds[] = 
 {
-    ILI9341_CMD_SWRST, 50, 0,
-    ILI9341_CMD_DISPLAY_OFF, 2, 0,
+    50, ILI9341_CMD_SWRST, 0,
+    2,  ILI9341_CMD_DISPLAY_OFF, 0,
 
-    // 0xEF, 0, 3, 0x03, 0x80, 0x02,
-    // ILI9341_CMD_PWRCTRLB, 0, 3, 0x00, 0xC1, 0x30,
-    // ILI9341_CMD_PWRSEQCTRL, 0, 4, 0x64, 0x03, 0x12, 0x81,
-    // ILI9341_CMD_DTCTRLA, 0, 3, 0x85, 0x00, 0x78,
-    // ILI9341_CMD_PWRCTRLA, 0, 5, 0x39, 0x2C, 0x00, 0x34, 0x02,
-    // ILI9341_CMD_PUMPRCTRL, 0, 1, 0x20,
-    // ILI9341_CMD_DTCTRLB, 0, 2, 0x00, 0x00,
+    // 0, 0xEF, 3, 0x03, 0x80, 0x02,
+    // 0, ILI9341_CMD_PWRCTRLB, 3, 0x00, 0xC1, 0x30,
+    // 0, ILI9341_CMD_PWRSEQCTRL, 4, 0x64, 0x03, 0x12, 0x81,
+    // 0, ILI9341_CMD_DTCTRLA, 3, 0x85, 0x00, 0x78,
+    // 0, ILI9341_CMD_PWRCTRLA, 5, 0x39, 0x2C, 0x00, 0x34, 0x02,
+    // 0, ILI9341_CMD_PUMPRCTRL, 1, 0x20,
+    // 0, ILI9341_CMD_DTCTRLB, 2, 0x00, 0x00,
 
     // Power control
-    ILI9341_CMD_PWCTRL1, 0, 1, 0x23,
-    ILI9341_CMD_PWCTRL2, 0, 1, 0x10,
-    ILI9341_CMD_VCCTRL1, 0, 2, 0x3E, 0x28,
-    ILI9341_CMD_VCCTRL2, 0, 1, 0x86,
-    ILI9341_CMD_MADCTL, 0, 1, 0x48,
+    0, ILI9341_CMD_PWCTRL1, 1, 0x23,
+    0, ILI9341_CMD_PWCTRL2, 1, 0x10,
+    0, ILI9341_CMD_VCCTRL1, 2, 0x3E, 0x28,
+    0, ILI9341_CMD_VCCTRL2, 1, 0x86,
+    0, ILI9341_CMD_MADCTL, 1, 0x48,
 
     // reset scroll, pixel format
-    ILI9341_CMD_VSCRADDR, 0, 1, 0x00,
-    ILI9341_CMD_PIXFMT, 0, 1, 0x55,
-    ILI9341_CMD_FRMCTRL1, 0, 2, 0x00, 0x1B,
-    ILI9341_CMD_DISPFUNC, 0, 3, 0x08, 0x82, 0x27,
-    ILI9341_CMD_ENTRY_MODE, 0, 1, 0x07,
+    0, ILI9341_CMD_VSCRADDR, 1, 0x00,
+    0, ILI9341_CMD_PIXFMT, 1, 0x55,
+    0, ILI9341_CMD_FRMCTRL1, 2, 0x00, 0x1B,
+    0, ILI9341_CMD_DISPFUNC, 3, 0x08, 0x82, 0x27,
+    0, ILI9341_CMD_ENTRY_MODE, 1, 0x07,
 
     // Gamma
-    // ILI9341_CMD_EN3G, 0, 1, 00,
-    // ILI9341_CMD_GAMMA_SET, 0, 1, 0x01,
-    // ILI9341_CMD_PGMCRP, 0, 15, 0x0F, 0x31, 0x2B, 0x0C, 0x0E, 0x08, 0x4E, 0xF1, 0x37, 0x07, 0x10, 0x03, 0x0E, 0x09, 0x00,
-    // ILI9341_CMD_NGMCRP, 0, 15, 0x00, 0x0E, 0x14, 0x03, 0x11, 0x07, 0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F,
+    // 0, ILI9341_CMD_EN3G, 1, 00,
+    // 0, ILI9341_CMD_GAMMA_SET, 1, 0x01,
+    // 0, ILI9341_CMD_PGMCRP, 15, 0x0F, 0x31, 0x2B, 0x0C, 0x0E, 0x08, 0x4E, 0xF1, 0x37, 0x07, 0x10, 0x03, 0x0E, 0x09, 0x00,
+    // 0, ILI9341_CMD_NGMCRP, 15, 0x00, 0x0E, 0x14, 0x03, 0x11, 0x07, 0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F,
 
-    ILI9341_CMD_SLEEP_OUT, 150, 0,
-    ILI9341_CMD_DISPLAY_ON, 150, 0,
+    150, ILI9341_CMD_SLEEP_OUT, 0,
+    150, ILI9341_CMD_DISPLAY_ON, 0,
 };
 // clang-format on
 
@@ -125,8 +125,8 @@ int ili9341_init(ili9341_scb_t *scb)
     const uint8_t *cmd_end = ili9341_init_cmds + sizeof(ili9341_init_cmds);
     while ((cmd_end > addr) && !ret)
     {
-        uint8_t cmd = *addr++;
         uint8_t delay = *addr++;
+        uint8_t cmd = *addr++;
         uint8_t argc = *addr++;
         const uint8_t *argv = addr;
         if (argc)
