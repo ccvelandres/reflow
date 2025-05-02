@@ -1,3 +1,8 @@
-
+# source bashrc first
 . ~/.bashrc
-. $IDF_PATH/export.sh
+
+# source esp-idf environment if it exists
+if [ -n "$IDF_PATH" ]; then
+    echo "Found ESP_IDF at $IDF_PATH"
+    . $IDF_PATH/export.sh
+fi

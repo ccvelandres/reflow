@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+# # source bashrc first
+# . ~/.bashrc
+
+# # then source esp-idf environment if it exists
+
+# if [ -n "$IDF_PATH" ]; then
+#     echo "Found ESP_IDF at $IDF_PATH"
+#     . $IDF_PATH/export.sh
+# fi
+source $SCRIPT_DIR/envfile
+
+echo "Running task $@"
+$@

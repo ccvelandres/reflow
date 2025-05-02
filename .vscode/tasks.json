@@ -5,44 +5,25 @@
     "tasks": [
         {
             "label": "cmake-debug-configure",
-            "command": "cmake",
+            "command": "${workspaceFolder}/.vscode/do_task",
             "args": [
-                "--preset=debug",
+                "cmake",
+                "--preset=${input:configure-preset}"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
             },
             "group": "build"
         },
         {
             "label": "cmake-debug-build",
-            "command": "cmake",
+            "command": "${workspaceFolder}/.vscode/do_task",
             "args": [
+                "cmake",
                 "--build",
                 "--preset=debug",
                 "--parallel"
             ],
-            "dependsOn": [
-                "cmake-debug-configure"
-            ],
-            "dependsOrder": "sequence",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": "build"
-        },
-        {
-            "label": "cmake-debug-clean",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "--preset=debug",
-                "--target", "clean"
-            ],
-            "dependsOn": [
-                "cmake-debug-configure"
-            ],
-            "dependsOrder": "sequence",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -50,9 +31,10 @@
         },
         {
             "label": "cmake-release-configure",
-            "command": "cmake",
+            "command": "${workspaceFolder}/.vscode/do_task",
             "args": [
-                "--preset=release",
+                "cmake",
+                "--preset=${input:configure-preset}",
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -61,33 +43,13 @@
         },
         {
             "label": "cmake-release-build",
-            "command": "cmake",
+            "command": "${workspaceFolder}/.vscode/do_task",
             "args": [
+                "cmake",
                 "--build",
                 "--preset=release",
                 "--parallel"
             ],
-            "dependsOn": [
-                "cmake-release-configure"
-            ],
-            "dependsOrder": "sequence",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": "build"
-        },
-        {
-            "label": "cmake-release-clean",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "--preset=release",
-                "--target", "clean"
-            ],
-            "dependsOn": [
-                "cmake-release-configure"
-            ],
-            "dependsOrder": "sequence",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -104,11 +66,60 @@
                 "-ex", "load ard/sketch_jan28a.ino.elf",
                 "-ex", "run"
             ],
-            "dependsOrder": "sequence",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "group": "build"
         },
+        {
+            "label": "esp_upload",
+            "command": "${workspaceFolder}/.vscode/do_task",
+            "args": [
+                "esptool.py",
+                "--chip", "esp32",
+                "-p", "${input:serial_port}",
+                "-b", "460800",
+                "--before=default_reset",
+                "--after=hard_reset",
+                "write_flash",
+                "--flash_mode", "dio",
+                "--flash_freq", "40m",
+                "--flash_size", "2MB",
+                "0x8000", "${workspaceFolder}/build/${input:build_type}/partition_table/partition-table.bin",
+                "0x1000", "${workspaceFolder}/build/${input:build_type}/bootloader/bootloader.bin",
+                "0x10000", "${workspaceFolder}/build/${input:build_type}/reflow.bin"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "configure-preset",
+            "description": "cmake configure preset to run",
+            "type": "pickString",
+            "options": [
+                "esp32-debug",
+                "stm32-debug"
+            ]
+        },
+        {
+            "id": "build_type",
+            "description": "build type to use",
+            "default": "debug",
+            "type": "pickString",
+            "options": [
+                "debug",
+                "release"
+            ]
+        },
+        {
+            "id": "serial_port",
+            "description": "esp32 serial port",
+            "default": "/dev/ttyUSB0",
+            "type": "promptString"
+        }
     ]
 }

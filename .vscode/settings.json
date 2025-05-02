@@ -1,0 +1,26 @@
+{
+    "files.associations": {
+        "stdbool.h": "c",
+        "ili9341.h": "c",
+        "display.h": "c",
+        "array": "c",
+        "compare": "c",
+        "functional": "c",
+        "ratio": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "chrono": "c",
+        "istream": "c",
+        "ostream": "c",
+        "ranges": "c",
+        "string": "c",
+        "string_view": "c",
+        "span": "c",
+        "drv8825.h": "c",
+        "list": "cpp",
+        "esp_log.h": "c",
+        "task.h": "c",
+        "esp_event.h": "c"
+    }
+}
