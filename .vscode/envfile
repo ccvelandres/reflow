@@ -1,0 +1,3 @@
+
+. ~/.bashrc
+. $IDF_PATH/export.sh

@@ -51,7 +51,7 @@
             "name": "esp32-debug",
             "inherits": "debug",
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "$penv{IDF_PATH}/tools/cmake/toolchain-esp32.cmake"
+                "CMAKE_TOOLCHAIN_FILE": "$env{IDF_PATH}/tools/cmake/toolchain-esp32.cmake"
             }
         }
     ],

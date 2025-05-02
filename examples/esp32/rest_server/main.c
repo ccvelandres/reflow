@@ -80,10 +80,10 @@ void init_softap(const char* ssid, const char *password, uint8_t channel, uint8_
 
 esp_err_t http_handler_assets(httpd_req_t *req)
 {
-    extern unsigned char __binary_CMakeLists_txt_data[];
-    extern unsigned __binary_CMakeLists_txt_size;
+    extern const unsigned char __binary_CMakeLists_txt_data[];
+    extern const unsigned __binary_CMakeLists_txt_size;
 
-    httpd_resp_send(req, __binary_CMakeLists_txt_data, __binary_CMakeLists_txt_size);
+    httpd_resp_send(req, (const char*) __binary_CMakeLists_txt_data, __binary_CMakeLists_txt_size);
     // httpd_resp_send_chunk(req, NULL, 0);
     return ESP_OK;
 }
