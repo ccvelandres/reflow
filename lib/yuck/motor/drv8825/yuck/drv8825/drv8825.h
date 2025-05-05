@@ -29,6 +29,9 @@ struct drv8825_scb
     int pin_step;
     int step_per_rev;
 
+    yuck_gpio_set_type_fptr_t fptr_gpio_set_type;
+    yuck_gpio_set_state_fptr_t fptr_gpio_set_state;
+
     struct {
         uint8_t state;
         uint8_t direction;

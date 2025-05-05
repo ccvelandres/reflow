@@ -40,16 +40,16 @@ int drv8825_init(drv8825_scb_t *scb)
     YUCK_CHECK_ARG(0 > scb->pin_dir, YUCK_E_INVALID_ARG);
     YUCK_CHECK_ARG(0 > scb->pin_step, YUCK_E_INVALID_ARG);
 
-    yuck_gpio_set_type(scb->pin_dir, YUCK_GPIO_TYPE_OUTPUT);
-    yuck_gpio_set_state(scb->pin_dir, YUCK_GPIO_STATE_LOW);
+    scb->fptr_gpio_set_type(scb->pin_dir, YUCK_GPIO_TYPE_OUTPUT);
+    scb->fptr_gpio_set_state(scb->pin_dir, YUCK_GPIO_STATE_LOW);
 
-    yuck_gpio_set_type(scb->pin_step, YUCK_GPIO_TYPE_OUTPUT);
-    yuck_gpio_set_state(scb->pin_step, YUCK_GPIO_STATE_LOW);
+    scb->fptr_gpio_set_type(scb->pin_step, YUCK_GPIO_TYPE_OUTPUT);
+    scb->fptr_gpio_set_state(scb->pin_step, YUCK_GPIO_STATE_LOW);
 
     if (0 > scb->pin_en)
     {
-        yuck_gpio_set_type(scb->pin_en, YUCK_GPIO_TYPE_OUTPUT);
-        yuck_gpio_set_state(scb->pin_en, YUCK_GPIO_STATE_LOW);
+        scb->fptr_gpio_set_type(scb->pin_en, YUCK_GPIO_TYPE_OUTPUT);
+        scb->fptr_gpio_set_state(scb->pin_en, YUCK_GPIO_STATE_LOW);
     }
 
     // set defaults for data

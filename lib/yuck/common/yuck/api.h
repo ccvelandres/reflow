@@ -14,6 +14,7 @@ extern "C"
 #endif
 
 #include "yuck.h"
+#include "yuck_impl.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -21,15 +22,57 @@ extern "C"
 void yuck_delay_ms(uint32_t ms);
 void yuck_delay_ns(uint32_t ns);
 
-/*! @name Common GPIO Functions */
+
+/*****************************************************************************/
+/**
+ * @defgroup Yuck Mutex API
+ * @{
+ */
+
+typedef void* yuck_mutex_t;
+typedef struct yuck_mutex_api_s yuck_mutex_api_t;
+
+typedef int (*yuck_mutex_init)(yuck_mutex_t);
+typedef int (*yuck_mutex_lock)(yuck_mutex_t);
+typedef int (*yuck_mutex_unlock)(yuck_mutex_t);
+
+struct yuck_mutex_api_s
+{
+    yuck_mutex_init init_fptr;
+    yuck_mutex_lock lock_fptr;
+    yuck_mutex_unlock unlock_fptr;
+};
+
+/** @} */
+
+/*****************************************************************************/
+/**
+ * @defgroup Yuck Common GPIO API
+ * @{
+ */
 #define YUCK_GPIO_TYPE_INPUT          (0)
 #define YUCK_GPIO_TYPE_OUTPUT         (1)
 
 #define YUCK_GPIO_STATE_LOW           (0)
 #define YUCK_GPIO_STATE_HIGH          (1)
 
-void yuck_gpio_set_type(uint32_t pin, int type);
-void yuck_gpio_set_state(uint32_t pin, int state);
+typedef int (*yuck_gpio_set_type_fptr_t)(uint32_t pin, int type);
+typedef int (*yuck_gpio_set_state_fptr_t)(uint32_t pin, int state);
+
+/** @} */
+
+/*****************************************************************************/
+/**
+ * @defgroup Yuck Common Timer API
+ * @{
+ */
+
+
+typedef int (*yuck_xx_fptr_t)(uint32_t pin, int type);
+typedef int (*yuck_xx_fptr_t)(uint32_t pin, int state);
+
+/** @} */
+
 
 #ifdef __cplusplus
 }

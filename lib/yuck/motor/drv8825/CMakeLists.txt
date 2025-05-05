@@ -7,7 +7,7 @@ target_include_directories(yuck_motor_drv8825_lib PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/../../common)
 
 target_link_libraries(yuck_motor_drv8825_lib PUBLIC
-    yuck::common
+    yuck::yuck
     )
 
 add_library(yuck::motor::drv8825 ALIAS yuck_motor_drv8825_lib)

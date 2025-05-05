@@ -7,6 +7,9 @@
 #include "esp_log.h"
 #include "nvs_flash.h"
 
+#include "yuck/api.h"
+#include "yuck/scheduler.h"
+
 static const char *TAG = "rest_server";
 
 void init_nvs()

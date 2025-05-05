@@ -20,7 +20,7 @@ include(FetchContent)
 
 # set(BOARD_LIBRARIES libopencm3 freertos_kernel_cm4 segger_rtt)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/lib/yuck)
+# add_subdirectory(${CMAKE_SOURCE_DIR}/lib/yuck)
 
 #########################################################################
 #########################################################################

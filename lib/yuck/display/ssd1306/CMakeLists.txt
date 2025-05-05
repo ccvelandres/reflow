@@ -6,7 +6,7 @@ target_include_directories(yuck_display_ssd1306_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(yuck_display_ssd1306_lib PUBLIC
-    yuck::common
+    yuck::yuck
     )
 
 add_library(yuck::display::ssd1306 ALIAS yuck_display_ssd1306_lib)

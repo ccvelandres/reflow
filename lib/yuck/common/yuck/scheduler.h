@@ -15,23 +15,38 @@ extern "C"
 
 #include "list.h"
 
-typedef struct scheduler_task scheduler_task_t;
+typedef struct scheduler_s scheduler_scb_t;
+typedef void* scheduler_handle_t;
 
-typedef int(*scheduler_task_fn_t)(scheduler_task_t *);
+typedef struct scheduler_task_s scheduler_task_t;
+typedef int(*scheduler_fn_t)(scheduler_task_t *);
 
-struct scheduler_task {
+struct scheduler_s
+{
+    struct list_node task_list_head;
+
+    // API
+    yuck_mutex_api_t mutex_api;
+};
+
+struct scheduler_task_s {
     struct list_node list;
-    scheduler_task_fn_t task_fn;
+    scheduler_fn_t task_fn;
     uint32_t waketime_ns;
 };
 
-struct scheduler_scb
-{
+scheduler_handle_t scheduler_init(scheduler_scb_t *scb);
+// int scheduler_queue(scheduler_t *scb, )
 
-};
+void scheduler_timer_handler(scheduler_scb_t *scb);
 
-int scheduler_init(scheduler_task_t *scb);
-// int scheduler_queue(scheduler_task_t *scb, )
+/**
+ * likely usage 
+ * 
+ * handle = scheduler_init(&cfg);
+ * 
+ * scheduler_task_add(handle, &task);
+ */
 
 #ifdef __cplusplus
 }
