@@ -22,6 +22,26 @@ extern "C"
 void yuck_delay_ms(uint32_t ms);
 void yuck_delay_ns(uint32_t ns);
 
+/*****************************************************************************/
+/**
+ * @defgroup Yuck Interrupt API
+ * @{
+ */
+
+typedef struct yuck_mutex_api_s yuck_mutex_api_t;
+
+typedef int (*yuck_isr_enable)();
+typedef int (*yuck_isr_disable)();
+
+struct yuck_isr_api_s
+{
+    yuck_isr_enable enable; 
+    yuck_isr_disable disable; 
+};
+
+extern yuck_mutex_api_t yuck_mutex_api;
+
+/** @} */
 
 /*****************************************************************************/
 /**
@@ -42,6 +62,7 @@ struct yuck_mutex_api_s
     yuck_mutex_lock lock_fptr;
     yuck_mutex_unlock unlock_fptr;
 };
+struct yuck_mutex_api_s
 
 /** @} */
 

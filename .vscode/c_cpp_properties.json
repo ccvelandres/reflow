@@ -3,8 +3,7 @@
         {
             "name": "debug",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/build/debug/lib/libopencm3/include/libopencm3/stm32/common"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "STM32F4"

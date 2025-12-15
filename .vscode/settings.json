@@ -21,6 +21,8 @@
         "list": "cpp",
         "esp_log.h": "c",
         "task.h": "c",
-        "esp_event.h": "c"
+        "esp_event.h": "c",
+        "yuck.h": "c",
+        "stdint.h": "c"
     }
 }

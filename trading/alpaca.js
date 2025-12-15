@@ -1,0 +1,3 @@
+ALPACA_EP="https://paper-api.alpaca.markets/v2"
+ALPACA_KEY="PKL7284AY18RKMWQF6S9"
+ALPACA_SECRET="HiWLJBRlm3wC3PlyZslkyhgjZSkEhCZWbgfKaS14"

@@ -14,6 +14,7 @@ extern "C"
 #endif
 
 #include "list.h"
+#include "api.h"
 
 typedef struct scheduler_s scheduler_scb_t;
 typedef void* scheduler_handle_t;
@@ -38,10 +39,14 @@ struct scheduler_task_s {
 scheduler_handle_t scheduler_init(scheduler_scb_t *scb);
 // int scheduler_queue(scheduler_t *scb, )
 
-void scheduler_timer_handler(scheduler_scb_t *scb);
+void scheduler_timer_handler(scheduler_handle_t *handle);
 
 /**
  * likely usage 
+ * 
+ * void timer_isr(){
+ *  scheduler_timer_handler(handle);
+ * }
  * 
  * handle = scheduler_init(&cfg);
  * 
